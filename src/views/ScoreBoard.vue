@@ -30,7 +30,7 @@
 
   <script>
  import db from '@/firebase'
-  import { collection, getDocs } from '@firebase/firestore';
+  import { collection, getDocs, orderBy, query } from '@firebase/firestore';
   
     export default {
       name: "Quiz",
@@ -39,7 +39,7 @@
         return {
           
           quizData:[],
-          
+
           
         };
       },
@@ -49,14 +49,19 @@
       methods: {
     
         async fetchLeaderBoards() {
-        const querySnapshot = await getDocs(collection(db, "userScore"));
-        querySnapshot.forEach((doc) => {
-          //console.log(doc.data())
-          this.quizData.push(doc.data());
-          console.log(this.quizData);
-        });
-   
-      },
+      const scoreRef = collection(db, "userScore");
+      const q = query(scoreRef, orderBy("scores", "desc"));
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((doc) => {
+        //console.log(doc.data())
+        this.quizData.push(doc.data());
+        console.log(this.quizData);
+      });
+    },
+        
+ 
+
   
       },
       
