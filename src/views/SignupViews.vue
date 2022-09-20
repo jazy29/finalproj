@@ -52,7 +52,7 @@
                 >Sign Up</v-btn
               >
               <v-card-subtitle class="v-card-subtitle"
-                ><a href="/login">Already have an account? Click Here!</a></v-card-subtitle
+                ><btn flat   @click="Reg">Does not have an account yet? Click Here!</btn></v-card-subtitle
               >
             </v-container>
             </v-container>
@@ -108,13 +108,12 @@
       .catch((error)=>{
         console.log(error.code);
         alert(error.message);
-      })
-      
-      
-
-    
+      })  
   }
 
+  const Reg = () => {
+    router.push('/login');
+  }
   
 </script>
 

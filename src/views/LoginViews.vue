@@ -52,8 +52,9 @@
                 >Sign In</v-btn
               >
               <v-card-subtitle class="v-card-subtitle "
-                ><a href="/signup">Does not have an account yet? Click Here!</a></v-card-subtitle
+                ><btn flat   @click="Reg">Does not have an account yet? Click Here!</btn></v-card-subtitle
               >
+           
               <v-card-subtitle class="err"
                 v-if="errMsg">{{errMsg}}</v-card-subtitle
               >
@@ -92,6 +93,7 @@
   import {ref} from "vue"
   import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from 'vue-router';
+
   const email = ref("");
   const password = ref("");
   const errMsg = ref();
@@ -123,6 +125,9 @@ import { useRouter } from 'vue-router';
             break;
         }
       })
+  }
+  const Reg = () => {
+    router.push('/signup');
   }
 </script>
 
@@ -161,6 +166,7 @@ body {
     position: relative;
     right:6%
 }
+
 .bg{
     background-color:rgba(234, 229, 229, 0.879) ;
     margin-top:5% ;

@@ -9,6 +9,7 @@
 
       <v-toolbar-items   class="hidden-sm-and-down">
         <v-btn v-if="isLoggedIn==true" flat to="/index">Home</v-btn>
+        <v-btn v-if="isLoggedIn==false" flat to="/">Home</v-btn>
         <v-btn v-if="isLoggedIn==true" to="/axiosQuiz" flat>Quiz</v-btn>
         <v-btn v-if="isLoggedIn==true" to="/score" flat>Score Board</v-btn>
         <v-btn v-if="isLoggedIn==true" flat to="/about">About</v-btn>
