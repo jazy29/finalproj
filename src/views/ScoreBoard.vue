@@ -15,7 +15,7 @@
   <tbody class="tbody">
     <tr v-for="quiz in quizData " :key="quiz" >
                    <td>{{quiz.user  }}</td>
-                    <td>{{ quiz.scores }}</td>      
+                    <td>{{ quiz.hiscore }}</td>      
                     <td>{{ quiz.remarks }}</td>   
                     </tr>
 
@@ -31,6 +31,7 @@
   <script>
  import db from '@/firebase'
   import { collection, getDocs, orderBy, query } from '@firebase/firestore';
+  import { getAuth } from "firebase/auth";
   
     export default {
       name: "Quiz",
@@ -39,7 +40,10 @@
         return {
           
           quizData:[],
-
+          scorel:[],
+          hiscore:[],
+          result: "",
+          
           
         };
       },
@@ -47,17 +51,57 @@
 
       // Custom methods of the Vue Component
       methods: {
-    
+
+        async fetchHighScore() {
+          const auth = getAuth();
+      await db.collection('userScore').get().then((snapshot)=>{
+              snapshot.docs.forEach(doc=>{
+                  if(doc.data().user == auth.currentUser.email){
+                        this.scorel.push(doc.data().scores);
+                           this.hiscore = this.scorel[0];
+                          for ( var i = 0; i < this.scorel.length; i++) {  
+            //Compare elements of array with max  
+                   if(this.scorel[i] >    this.hiscore)  
+                   this.hiscore = this.scorel[i];  
+                     }     
+                    }
+                     else{
+                      
+                     }
+              })
+            }).then (()=>{
+              const auth = getAuth();
+
+              const passingScore= 5;
+            if(this.score>= passingScore){
+              this.result= "Passed"
+      
+            }else{
+              this.result= "Failed"
+            }
+              db.collection('hiScore').doc(auth.currentUser.uid).set({
+                hiscore: this.hiscore,
+                user: auth.currentUser.email,
+                remarks: this.result,
+           
+                
+              })
+
+            })
+       
+          },
+
         async fetchLeaderBoards() {
-      const scoreRef = collection(db, "userScore");
-      const q = query(scoreRef, orderBy("scores", "desc"));
+      const scoreRef = collection(db, "hiScore");
+      const q = query(scoreRef, orderBy("hiscore", "desc"));
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
-        //console.log(doc.data())
+        console.log(doc.data())
         this.quizData.push(doc.data());
         console.log(this.quizData);
       });
+    
     },
         
  
@@ -67,7 +111,7 @@
       
       // Code inside mounted() runs after the Component has mounted
       mounted() {
-
+        this.fetchHighScore();
         this.fetchLeaderBoards();
       },
     };
