@@ -123,7 +123,7 @@ import { collection, getDocs } from '@firebase/firestore';
       async fetchQuestions() {
         this.loading = true;
         let response = await fetch(
-          "https://opentdb.com/api.php?amount=10&category=20&difficulty=easy"
+          "https://opentdb.com/api.php?amount=10&category=20&difficulty=hard"
         );
         let jsonResponse = await response.json();
         let index = 0; // index is used to identify single answer
