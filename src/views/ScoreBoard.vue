@@ -61,7 +61,7 @@
                            this.hiscore = this.scorel[0];
                           for ( var i = 0; i < this.scorel.length; i++) {  
             //Compare elements of array with max  
-                   if(this.scorel[i] >    this.hiscore)  
+                   if(this.scorel[i] >=    this.hiscore)  
                    this.hiscore = this.scorel[i];  
                      }     
                     }
@@ -73,12 +73,13 @@
               const auth = getAuth();
 
               const passingScore= 5;
-            if(this.score>= passingScore){
+            if(this.hiscore>= passingScore){
               this.result= "Passed"
       
             }else{
               this.result= "Failed"
             }
+            
               db.collection('hiScore').doc(auth.currentUser.uid).set({
                 hiscore: this.hiscore,
                 user: auth.currentUser.email,
