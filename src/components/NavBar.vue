@@ -11,7 +11,31 @@
         <v-btn v-if="isLoggedIn==true" flat to="/index">Home</v-btn>
         <v-btn v-if="isLoggedIn==false" flat to="/">Home</v-btn>
         <v-btn v-if="isLoggedIn==true" to="/axiosQuiz" flat>Quiz</v-btn>
-        <v-btn v-if="isLoggedIn==true" to="/score" flat>Score Board</v-btn>
+       <!-- dropdown menu -->
+    <v-menu
+      open-on-hover
+      v-if="isLoggedIn==true"
+    >
+      <template v-slot:activator="{ props }">
+        <v-btn
+           flat
+          v-bind="props"
+        >
+          Score
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item
+          v-for="(item, index) in items"
+          :key="index"
+          router
+          :to="item.path" :prepend-icon="item.icon">
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+     <!-- dropdown menu -->
         <v-btn v-if="isLoggedIn==true" flat to="/about">About</v-btn>
         <v-btn v-if="isLoggedIn==true" flat @click="handleSignOut">Logout</v-btn>
         <v-btn v-if="isLoggedIn==false" to="/Login" flat>Login</v-btn>
@@ -58,6 +82,17 @@ const handleSignOut = () => {
       });
    };
   </script>
+  <script>
+   export default {
+     data: () => ({
+       items: [
+            { title: 'ScoreBoard', icon: 'mdi-scoreboard', path: '/score' },
+           { title: 'User Recent Score', icon: 'mdi-account', path: '/scoreall'},
+   
+       ],
+     }),
+   }
+ </script>
 
 <style scoped>
 

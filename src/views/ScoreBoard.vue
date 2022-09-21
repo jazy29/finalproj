@@ -53,6 +53,7 @@
       methods: {
 
         async fetchHighScore() {
+          
           const auth = getAuth();
       await db.collection('userScore').get().then((snapshot)=>{
               snapshot.docs.forEach(doc=>{
@@ -112,8 +113,9 @@
       
       // Code inside mounted() runs after the Component has mounted
       mounted() {
-        this.fetchHighScore();
         this.fetchLeaderBoards();
+        this.fetchHighScore();
+    
       },
     };
   

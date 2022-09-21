@@ -54,6 +54,14 @@ const router = createRouter({
             requiresAuths: true,
           },
         },
+        {
+          path: '/scoreall',
+          name: 'Scoreall',
+          component:  () => import('@/views/ScoreBoardall.vue'),
+          meta:{
+            requiresAuths: true,
+          },
+        },
         
         
         
